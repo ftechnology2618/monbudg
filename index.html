@@ -1292,53 +1292,9 @@ document.getElementById('main-content').addEventListener('scroll', function() {
 });
 
 /* ============================================================
-   SEED DATA
-   ============================================================ */
-function seedData() {
-  const now = new Date();
-  const m = now.getMonth(), y = now.getFullYear();
-  const d = (day) => `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-  const add = (t) => DB.transactions.push({id:Date.now()+Math.random()*9999|0, ...t});
-
-  add({type:'income', amount:2450, description:'Salaire', category:'income', date:d(1)});
-  add({type:'income', amount:180, description:'Remboursement santé', category:'income', date:d(8)});
-  add({type:'expense', amount:780, description:'Loyer', category:'housing', date:d(1)});
-  add({type:'expense', amount:94.50, description:'Courses E.Leclerc', category:'food', date:d(4)});
-  add({type:'expense', amount:38.20, description:'Brasserie du Port', category:'resto', date:d(6)});
-  add({type:'expense', amount:62, description:'Plein essence', category:'transport', date:d(8)});
-  add({type:'expense', amount:12.99, description:'Netflix', category:'sub', date:d(10)});
-  add({type:'expense', amount:9.99, description:'Spotify', category:'sub', date:d(10)});
-  add({type:'expense', amount:45, description:'Pharmacie', category:'health', date:d(12)});
-  add({type:'expense', amount:89, description:'Zara', category:'clothes', date:d(15)});
-  add({type:'expense', amount:22, description:'Cinéma', category:'leisure', date:d(18)});
-  add({type:'expense', amount:110, description:'Courses Lidl', category:'food', date:d(22)});
-
-  // Previous months
-  for (let i=1; i<=11; i++) {
-    const dt = new Date(y, m-i, 1);
-    const mm = String(dt.getMonth()+1).padStart(2,'0');
-    const yy = dt.getFullYear();
-    const mk = (day, type, amt, desc, cat) => ({id:Date.now()+(i*1000+Math.random()*999|0), type, amount:amt, description:desc, category:cat, date:`${yy}-${mm}-${String(day).padStart(2,'0')}`});
-    DB.transactions.push(mk(1,'income',2300+Math.random()*400|0,'Salaire','income'));
-    DB.transactions.push(mk(1,'expense',780,'Loyer','housing'));
-    DB.transactions.push(mk(5,'expense',80+Math.random()*60|0,'Courses','food'));
-    DB.transactions.push(mk(10,'expense',30+Math.random()*50|0,'Restaurant','resto'));
-    DB.transactions.push(mk(15,'expense',40+Math.random()*30|0,'Transport','transport'));
-    DB.transactions.push(mk(20,'expense',50+Math.random()*80|0,'Divers','other'));
-  }
-
-  DB.goals = [
-    {id:1, name:'Vacances été', target:2000, current:850, emoji:'🏖️'},
-    {id:2, name:'Nouveau vélo', target:600, current:180, emoji:'🚲'},
-  ];
-  save();
-}
-
-/* ============================================================
    INIT
    ============================================================ */
 load();
-if (!DB.transactions.length) seedData();
 renderAll();
 
 // Swipe down to close sheet
